@@ -8,10 +8,10 @@ Unfortunately, due to some time constraints before the initial launch of the sit
 
 ## Instructions
 
-All your tasks are outlined in a single Google Docs document here(opens in a new tab), which you should make a copy from (do not request access). A Word version of this template has also been attached at the bottom of this page. To complete the project, you’ll have to make your own copy of this document to document your findings and steps. This document will constitute your final submission for the project.
+All your tasks are outlined in a single Google Docs document; make your own copy of this document to document your findings and steps. This document will constitute your final submission for the project.
 
 ### You need to complete the following in the template:
 
-Part I: Investigate the existing schema
-Part II: Create the DDL for your new schema
-Part III: Migrate the provided data
+- Part I: Investigate the existing schema
+- Part II: Create the DDL for your new schema
+- Part III: Migrate the provided data
