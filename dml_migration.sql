@@ -16,3 +16,18 @@ UNION
 INSERT INTO topics ("name")
     SELECT DISTINCT topic
     FROM bad_posts;
+
+-- Populate `posts` table with existing data
+INSERT INTO posts ("id", "title", "url", "text_content", "topic_id", "user_id")
+    SELECT
+        bp.id,
+        LEFT(bp.title, 100), -- Truncate to fit if necessary
+        bp.url,
+        bp.text_content,
+        t.id,
+        u.id
+    FROM bad_posts AS bp
+    INNER JOIN users AS u
+    ON bp.username = u.username
+    INNER JOIN topics AS t
+    ON bp.topic = t.name;
