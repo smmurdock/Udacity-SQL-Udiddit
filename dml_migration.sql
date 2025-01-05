@@ -11,3 +11,8 @@ UNION
 UNION
     SELECT DISTINCT REGEXP_SPLIT_TO_TABLE(downvotes, ',')
     FROM bad_posts;
+
+-- Populate `topics` table with existing data
+INSERT INTO topics ("name")
+    SELECT DISTINCT topic
+    FROM bad_posts;
