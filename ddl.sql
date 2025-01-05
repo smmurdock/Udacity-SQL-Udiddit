@@ -10,7 +10,7 @@ CREATE TABLE topics (
     id SERIAL PRIMARY KEY,
     name VARCHAR(30) UNIQUE NOT NULL,
     description VARCHAR(500)
-):
+);
 
 -- Create `posts` table
 CREATE TABLE posts (
@@ -19,9 +19,9 @@ CREATE TABLE posts (
     url VARCHAR(4000) DEFAULT NULL,
     text_content TEXT DEFAULT NULL,
     topic_id INT NOT NULL,
-    user_id INT DEFAULT NULL,
+    user_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT check_url_or_text CHECK (
         (url IS NOT NULL and text_content IS NULL) OR
         (url IS NULL and text_content IS NOT NULL)
@@ -33,8 +33,8 @@ CREATE TABLE posts (
 -- Create `comments` table
 CREATE TABLE comments (
     id SERIAL PRIMARY KEY,
-    text_content NOT NULL,
-    parent_comment_id DEFAULT NULL,
+    text_content TEXT NOT NULL,
+    parent_comment_id INT DEFAULT NULL,
     post_id INT NOT NULL,
     user_id INT DEFAULT NULL,
     FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
@@ -47,9 +47,9 @@ CREATE TABLE votes (
     id SERIAL PRIMARY KEY,
     post_id INT NOT NULL,
     user_id INT DEFAULT NULL,
-    vote_val INT NOT NULL,
+    vote_value INT NOT NULL,
     FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
-    CONSTRAINT "vote_value_valid" CHECK (vote_val IN (-1, 1)),
+    CONSTRAINT "vote_value_valid" CHECK (vote_value IN (-1, 1)),
     CONSTRAINT "vote_limit" UNIQUE (post_id, user_id)
 );
