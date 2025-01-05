@@ -38,3 +38,15 @@ CREATE TABLE comments (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
     FOREIGN KEY (parent_comment_id) REFERENCES comments(id) ON DELETE CASCADE
 );
+
+-- Create `votes` table
+CREATE TABLE votes (
+    id SERIAL PRIMARY KEY,
+    post_id INT NOT NULL,
+    user_id INT DEFAULT NULL,
+    vote_val INT NOT NULL,
+    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+  CONSTRAINT "vote_value_valid" CHECK (vote_val IN (-1, 1)),
+    CONSTRAINT "vote_limit" UNIQUE (post_id, user_id)
+);
