@@ -26,3 +26,15 @@ CREATE TABLE posts (
     FOREIGN KEY (topic_id) REFERENCES topics(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
+
+-- Create `comments` table
+CREATE TABLE comments (
+    id SERIAL PRIMARY KEY,
+    text_content NOT NULL,
+    parent_comment_id DEFAULT NULL,
+    post_id INT NOT NULL,
+    user_id INT DEFAULT NULL,
+    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+    FOREIGN KEY (parent_comment_id) REFERENCES comments(id) ON DELETE CASCADE
+);
