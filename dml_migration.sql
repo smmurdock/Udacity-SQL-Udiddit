@@ -31,3 +31,13 @@ INSERT INTO posts ("id", "title", "url", "text_content", "topic_id", "user_id")
     ON bp.username = u.username
     INNER JOIN topics AS t
     ON bp.topic = t.name;
+
+-- Populate `comments` table with existing data
+INSERT INTO comments ("text_content", "post_id", "user_id")
+    SELECT
+        bc.text_content,
+        bc.post_id,
+        u.id
+    FROM bad_comments AS bc
+    INNER JOIN users AS u
+    ON bc.username = u.username;
