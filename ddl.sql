@@ -6,6 +6,8 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(25) NOT NULL UNIQUE,
     last_login TIMESTAMP
+    -- Add constraint
+    CONSTRAINT "username_not_empty" CHECK (LENGTH(TRIM(username)) >= 0)
 );
 
 -- Create index on username
@@ -19,6 +21,8 @@ CREATE TABLE topics (
     id SERIAL PRIMARY KEY,
     name VARCHAR(30) UNIQUE NOT NULL,
     description VARCHAR(500)
+    -- Add constraint
+    CONSTRAINT "topic_name_not_empty" CHECK (LENGTH(TRIM(name)) >= 0)
 );
 
 -- Create index on topic names
@@ -37,11 +41,13 @@ CREATE TABLE posts (
     user_id INT DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    -- Add constraint
+    -- Add constraints
     CONSTRAINT check_url_or_text CHECK (
         (url IS NOT NULL and text_content IS NULL) OR
         (url IS NULL and text_content IS NOT NULL)
     ),
+    -- Add constraint
+    CONSTRAINT "post_title_not_empty" CHECK (LENGTH(TRIM(title)) >= 0)
     -- Add foreign key references
     FOREIGN KEY (topic_id) REFERENCES topics(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
@@ -66,6 +72,8 @@ CREATE TABLE comments (
     parent_comment_id INT DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    -- Add constraint
+    CONSTRAINT "comment_text_not_empty" CHECK (LENGTH(TRIM(text_content)) >= 0),
     -- Add foreign key references
     FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
