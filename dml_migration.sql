@@ -41,3 +41,29 @@ INSERT INTO comments ("text_content", "post_id", "user_id")
     FROM bad_comments AS bc
     INNER JOIN users AS u
     ON bc.username = u.username;
+
+-- Populate `votes` table with converted upvotes data
+INSERT INTO votes ("post_id", "user_id", "vote_value")
+    SELECT
+        bp.id,
+        u.id,
+        1 AS upvote
+    FROM (SELECT
+              "id",
+              REGEXP_SPLIT_TO_TABLE("upvotes", ',') AS upvote
+          FROM bad_posts) bp
+    JOIN users AS u
+    ON bp.upvote = u.username;
+
+-- Populate `votes` table with converted downvotes data
+INSERT INTO votes ("post_id", "user_id", "vote_value")
+    SELECT
+        bp.id,
+        u.id,
+        -1 AS downvote
+    FROM (SELECT
+              "id",
+              REGEXP_SPLIT_TO_TABLE("downvotes", ',') AS downvote
+          FROM bad_posts) bp
+    JOIN users AS u
+    ON bp.downvote = u.username;
