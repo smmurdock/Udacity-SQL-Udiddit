@@ -46,7 +46,6 @@ CREATE TABLE posts (
         (url IS NOT NULL and text_content IS NULL) OR
         (url IS NULL and text_content IS NOT NULL)
     ),
-    -- Add constraint
     CONSTRAINT "post_title_not_empty" CHECK (LENGTH(TRIM(title)) >= 0)
     -- Add foreign key references
     FOREIGN KEY (topic_id) REFERENCES topics(id) ON DELETE CASCADE,
